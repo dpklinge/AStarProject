@@ -113,7 +113,7 @@ public class EightPuzzle {
 
             if (getTotalEstimatedH(currentState)==0) {
                 List<Integer[][]> solutionPath = reconstructPath(currentKey, stateParent, visitedStates);
-                System.out.println("Final state: "+stringifyPuzzle(currentState));
+                System.out.println("Final state: \n"+stringifyPuzzle(currentState));
                 System.out.println("Goal achieved in " + currentG + " steps");
                 System.out.println("Nodes generated: " + nodesGenerated);
                 System.out.println("Nodes expanded: " + nodesExpanded);
