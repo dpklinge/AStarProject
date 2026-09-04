@@ -3,15 +3,15 @@ package com.example.project1_202680itcs6150091;
 import java.util.Map;
 
 public class AbsoluteDistanceHeuristic implements HeuristicFunction{
-    private Map<Integer, PuzzleNumber> puzzleSolution;
+    private Map<Integer, Coordinate> puzzleSolution;
 
-    public AbsoluteDistanceHeuristic(Map<Integer, PuzzleNumber> puzzleSolution) {
+    public AbsoluteDistanceHeuristic(Map<Integer, Coordinate> puzzleSolution) {
         this.puzzleSolution = puzzleSolution;
     }
 
     @Override
-    public int getHValue(PuzzleNumber number) {
-        PuzzleNumber solutionNumber = puzzleSolution.get(number.getNumber());
-        return (int) Math.sqrt(Math.abs(solutionNumber.getX() - number.getX())^2 + Math.abs(solutionNumber.getY()-number.getY())^2);
+    public int getHValue(Coordinate location, Integer value) {
+        Coordinate solutionLocation = puzzleSolution.get(value);
+        return (int) Math.sqrt(Math.abs(solutionLocation.getX() - location.getX())^2 + Math.abs(solutionLocation.getY()-location.getY())^2);
     }
 }

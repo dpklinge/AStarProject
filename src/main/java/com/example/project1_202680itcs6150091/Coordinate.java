@@ -1,10 +1,8 @@
 package com.example.project1_202680itcs6150091;
 
-public class PuzzleNumber {
+public class Coordinate {
     private final int x;
     private final int y;
-    private final int number;
-
     public int getX() {
         return x;
     }
@@ -13,22 +11,16 @@ public class PuzzleNumber {
         return y;
     }
 
-    public int getNumber() {
-        return number;
-    }
 
-
-    public PuzzleNumber(int x, int y, int number) {
+    public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
-        this.number = number;
     }
 
 
-    public PuzzleNumber(PuzzleNumber puzzleNumber){
+    public Coordinate(Coordinate puzzleNumber){
         this.x =puzzleNumber.x;
         this.y = puzzleNumber.y;
-        this.number = puzzleNumber.number;
     }
 
     @Override
@@ -36,18 +28,24 @@ public class PuzzleNumber {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PuzzleNumber that = (PuzzleNumber) o;
+        Coordinate that = (Coordinate) o;
 
         if (x != that.x) return false;
-        if (y != that.y) return false;
-        return number == that.number;
+        return y == that.y;
     }
 
     @Override
     public int hashCode() {
         int result = x;
         result = 31 * result + y;
-        result = 31 * result + number;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Coordinate{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

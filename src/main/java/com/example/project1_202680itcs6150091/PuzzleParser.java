@@ -3,8 +3,8 @@ package com.example.project1_202680itcs6150091;
 import java.io.*;
 import java.util.*;
 public class PuzzleParser {
-    public static PuzzleNumber[][] readMatrix(String filename) throws IOException {
-        List<PuzzleNumber[]> rows = new ArrayList<>();
+    public static Integer[][] readMatrix(String filename) throws IOException {
+        List<Integer[]> rows = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line;
@@ -13,16 +13,16 @@ public class PuzzleParser {
                 line = line.trim();
 
                 String[] values = line.split("\\s+");
-                PuzzleNumber[] row = new PuzzleNumber[values.length];
+                Integer[] row = new Integer[values.length];
 
                 for (int i = 0; i < values.length; i++) {
-                    row[i] = new PuzzleNumber(column, i, Integer.parseInt(values[i]));
+                    row[i] = Integer.parseInt(values[i]);
                 }
 
                 rows.add(row);
             }
         }
 
-        return rows.toArray(new PuzzleNumber[0][]);
+        return rows.toArray(new Integer[0][]);
     }
 }
