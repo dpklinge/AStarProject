@@ -127,11 +127,19 @@ public class EightPuzzle {
         Integer[][] test2 = PuzzleParser.readFile("TestFiles/Test2.txt");
         Integer[][] test3 = PuzzleParser.readFile("TestFiles/Test3.txt");
         Integer[][] test4 = PuzzleParser.readFile("TestFiles/Test4.txt");
+        Integer[][] test5 = PuzzleParser.readFile("TestFiles/Test5.txt");
+        Integer[][] test6 = PuzzleParser.readFile("TestFiles/Test6.txt");
+        Integer[][] test7 = PuzzleParser.readFile("TestFiles/Test7.txt");
+        Integer[][] test8 = PuzzleParser.readFile("TestFiles/Test8.txt");
         List<Integer[][]> tests = new ArrayList<>();
         tests.add(test1);
         tests.add(test2);
         tests.add(test3);
         tests.add(test4);
+        tests.add(test5);
+        tests.add(test6);
+        tests.add(test7);
+        tests.add(test8);
 
 
         System.out.println("Running manhattan heuristic");
