@@ -235,8 +235,8 @@ public class EightPuzzle {
         Map<Integer, Coordinate> solutionMap = PuzzleParser.generateSolutionMap("TestFiles/DefaultSolution.txt");
         HeuristicFunction manhattanHeuristic = new ManhattanHeuristic(solutionMap);
         EightPuzzle manhattanEightPuzzle = new EightPuzzle(manhattanHeuristic);
-        HeuristicFunction absoluteDistance = new AbsoluteDistanceHeuristic(solutionMap);
-        EightPuzzle absoluteDistanceEightPuzzle = new EightPuzzle(absoluteDistance);
+        HeuristicFunction euclideanDistance = new EuclideanDistanceHeuristic(solutionMap);
+        EightPuzzle euclideanDistanceEightPuzzle = new EightPuzzle(euclideanDistance);
 
         Integer[][] test1 = PuzzleParser.readFile("TestFiles/Test1.txt");
         Integer[][] test2 = PuzzleParser.readFile("TestFiles/Test2.txt");
@@ -262,7 +262,7 @@ public class EightPuzzle {
         }
         System.out.println("Running absolute distance heuristic");
         for(Integer[][]test: tests){
-            absoluteDistanceEightPuzzle.solvePuzzle(test);
+            euclideanDistanceEightPuzzle.solvePuzzle(test);
         }
     }
 }

@@ -2,10 +2,13 @@ package com.example.project1_202680itcs6150091;
 
 import java.util.Map;
 
-public class AbsoluteDistanceHeuristic implements HeuristicFunction{
+/*
+Euclidian distance - straight line from origin to target via pythagorean theorem
+ */
+public class EuclideanDistanceHeuristic implements HeuristicFunction{
     private Map<Integer, Coordinate> puzzleSolution;
 
-    public AbsoluteDistanceHeuristic(Map<Integer, Coordinate> puzzleSolution) {
+    public EuclideanDistanceHeuristic(Map<Integer, Coordinate> puzzleSolution) {
         this.puzzleSolution = puzzleSolution;
     }
 

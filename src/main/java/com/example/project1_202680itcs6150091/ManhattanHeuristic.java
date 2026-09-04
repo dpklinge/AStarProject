@@ -2,6 +2,9 @@ package com.example.project1_202680itcs6150091;
 
 import java.util.Map;
 
+/*
+Manhattan distance - number of left/right up/down movements to get to the target
+ */
 public class ManhattanHeuristic implements HeuristicFunction{
     private Map<Integer, Coordinate> puzzleSolution;
 
