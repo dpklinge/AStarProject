@@ -30,21 +30,18 @@ public class EightPuzzle {
         //Pair<Integer, Integer> is (gValue, hValue), AKA (distance travelled, heuristic estimate of distance remaining)
         PriorityQueue<Pair<Pair<Integer, Integer>, Integer[][]>> frontier = new PriorityQueue<>(Comparator.comparingInt(pair -> (pair.getKey().getKey() + pair.getKey().getValue())));
         frontier.add(new Pair<>(new Pair<>(0, initialHValue), initialState));
-        HashSet<String> visitedStates = new HashSet<>();
         Map<String, Integer> bestF = new HashMap<>();
+        Pair<Pair<Integer, Integer>, Integer[][]> latestState=null;
         while(!frontier.isEmpty() ) {
-
-            Pair<Pair<Integer, Integer>, Integer[][]> state = frontier.poll();
-            System.out.println("Considering state:\n"+stringifyPuzzle(state.getValue()));
-
-
+            latestState = frontier.poll();
 
             //If h is zero, we're there
-            if(state.getKey().getValue() == 0){
-                System.out.println("Goal achieved in "+state.getKey().getKey()+" steps");
-                return state.getValue();
+            if(latestState.getKey().getValue() == 0){
+                System.out.println("Final state: \n"+ stringifyPuzzle(latestState.getValue()));
+                System.out.println("Goal achieved in "+latestState.getKey().getKey()+" steps\n");
+                return latestState.getValue();
             }
-            List<Pair<Pair<Integer, Integer>, Integer[][]>> possibleMoves = getPossibleStates(state.getValue(), state.getKey().getKey());
+            List<Pair<Pair<Integer, Integer>, Integer[][]>> possibleMoves = getPossibleStates(latestState.getValue(), latestState.getKey().getKey());
             for(Pair<Pair<Integer, Integer>, Integer[][]> pair : possibleMoves){
                 String stringState = stringifyPuzzle(pair.getValue());
                 int fValue = pair.getKey().getKey()+pair.getKey().getValue();
@@ -55,6 +52,7 @@ public class EightPuzzle {
                 }
             }
         }
+        System.out.println("Goal unachievable- stopped at state:\n"+stringifyPuzzle(latestState.getValue()));
         return initialState;
     }
 
@@ -117,25 +115,38 @@ public class EightPuzzle {
     }
 
     public static void main(String... args) throws IOException {
-        Map<Integer, Coordinate> solutionMap = new HashMap<>();
-        solutionMap.put(1, new Coordinate(0,0));
-        solutionMap.put(2, new Coordinate(1,0));
-        solutionMap.put(3, new Coordinate(2,0));
-        solutionMap.put(4, new Coordinate(0,1));
-        solutionMap.put(5, new Coordinate(1,1));
-        solutionMap.put(6, new Coordinate(2,1));
-        solutionMap.put(7, new Coordinate(0,2));
-        solutionMap.put(8, new Coordinate(1,2));
+        Map<Integer, Coordinate> solutionMap = PuzzleParser.generateSolutionMap("TestFiles/DefaultSolution.txt");
 
         HeuristicFunction manhattanHeuristic = new ManhattanHeuristic(solutionMap);
         EightPuzzle manhattanEightPuzzle = new EightPuzzle(manhattanHeuristic);
-        Integer[][] puzzle = PuzzleParser.readMatrix("Test1.txt");
-        manhattanEightPuzzle.solvePuzzle(puzzle);
 
+        HeuristicFunction absoluteDistance = new AbsoluteDistanceHeuristic(solutionMap);
+        EightPuzzle absoluteDistanceEightPuzzle = new EightPuzzle(absoluteDistance);
+
+        Integer[][] test1 = PuzzleParser.readFile("TestFiles/Test1.txt");
+        Integer[][] test2 = PuzzleParser.readFile("TestFiles/Test2.txt");
+        Integer[][] test3 = PuzzleParser.readFile("TestFiles/Test2.txt");
+        Integer[][] test4 = PuzzleParser.readFile("TestFiles/Test2.txt");
+        List<Integer[][]> tests = new ArrayList<>();
+        tests.add(test1);
+        tests.add(test2);
+        tests.add(test3);
+        tests.add(test4);
+
+
+        System.out.println("Running manhattan heuristic");
+        for(Integer[][]test: tests){
+            manhattanEightPuzzle.solvePuzzle(test);
+        }
+
+        System.out.println("Running absolute distance heuristic");
+        for(Integer[][]test: tests){
+            absoluteDistanceEightPuzzle.solvePuzzle(test);
+        }
 
     }
 
-    public String stringifyPuzzle(Integer[][] puzzle) {
+    public static String stringifyPuzzle(Integer[][] puzzle) {
         StringBuilder result = new StringBuilder();
         for (Integer[] puzzleNumbers : puzzle) {
             for (Integer number: puzzleNumbers) {

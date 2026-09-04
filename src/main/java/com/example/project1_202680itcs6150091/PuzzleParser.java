@@ -3,7 +3,7 @@ package com.example.project1_202680itcs6150091;
 import java.io.*;
 import java.util.*;
 public class PuzzleParser {
-    public static Integer[][] readMatrix(String filename) throws IOException {
+    public static Integer[][] readFile(String filename) throws IOException {
         List<Integer[]> rows = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
@@ -24,5 +24,16 @@ public class PuzzleParser {
         }
 
         return rows.toArray(new Integer[0][]);
+    }
+
+    public static Map<Integer, Coordinate> generateSolutionMap(String filename) throws IOException {
+        Integer[][] grid = readFile(filename);
+        Map<Integer, Coordinate> solutionMap = new HashMap<>();
+        for(int i =0; i<3;i++){
+            for(int j=0;j<3;j++) {
+                solutionMap.put(grid[j][i], new Coordinate(i, j));
+            }
+        }
+        return solutionMap;
     }
 }
