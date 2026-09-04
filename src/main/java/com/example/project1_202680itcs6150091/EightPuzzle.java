@@ -30,7 +30,7 @@ public class EightPuzzle {
         //Pair<Integer, Integer> is (gValue, hValue), AKA (distance travelled, heuristic estimate of distance remaining)
         PriorityQueue<Pair<Pair<Integer, Integer>, Integer[][]>> frontier = new PriorityQueue<>(Comparator.comparingInt(pair -> (pair.getKey().getKey() + pair.getKey().getValue())));
         frontier.add(new Pair<>(new Pair<>(0, initialHValue), initialState));
-        Map<String, Integer> bestF = new HashMap<>();
+        Map<String, Integer> bestG = new HashMap<>();
         Pair<Pair<Integer, Integer>, Integer[][]> latestState=null;
         while(!frontier.isEmpty() ) {
             latestState = frontier.poll();
@@ -44,10 +44,10 @@ public class EightPuzzle {
             List<Pair<Pair<Integer, Integer>, Integer[][]>> possibleMoves = getPossibleStates(latestState.getValue(), latestState.getKey().getKey());
             for(Pair<Pair<Integer, Integer>, Integer[][]> pair : possibleMoves){
                 String stringState = stringifyPuzzle(pair.getValue());
-                int fValue = pair.getKey().getKey()+pair.getKey().getValue();
+                int gValue = pair.getKey().getKey();
 
-                if (!bestF.containsKey(stringState) || fValue < bestF.get(stringState)) {
-                    bestF.put(stringState, fValue);
+                if (!bestG.containsKey(stringState) || gValue < bestG.get(stringState)) {
+                    bestG.put(stringState, gValue);
                     frontier.add(pair);
                 }
             }
@@ -125,8 +125,8 @@ public class EightPuzzle {
 
         Integer[][] test1 = PuzzleParser.readFile("TestFiles/Test1.txt");
         Integer[][] test2 = PuzzleParser.readFile("TestFiles/Test2.txt");
-        Integer[][] test3 = PuzzleParser.readFile("TestFiles/Test2.txt");
-        Integer[][] test4 = PuzzleParser.readFile("TestFiles/Test2.txt");
+        Integer[][] test3 = PuzzleParser.readFile("TestFiles/Test3.txt");
+        Integer[][] test4 = PuzzleParser.readFile("TestFiles/Test4.txt");
         List<Integer[][]> tests = new ArrayList<>();
         tests.add(test1);
         tests.add(test2);
@@ -143,6 +143,7 @@ public class EightPuzzle {
         for(Integer[][]test: tests){
             absoluteDistanceEightPuzzle.solvePuzzle(test);
         }
+
 
     }
 
