@@ -3,7 +3,11 @@ package com.example.project1_202680itcs6150091;
 import javafx.util.Pair;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 public class EightPuzzle {
 
@@ -232,29 +236,26 @@ public class EightPuzzle {
     }
 
     public static void main(String... args) throws IOException {
-        Map<Integer, Coordinate> solutionMap = PuzzleParser.generateSolutionMap("TestFiles/DefaultSolution.txt");
+        Map<Integer, Coordinate> solutionMap = PuzzleParser.generateSolutionMap("DefaultSolution.txt");
         HeuristicFunction manhattanHeuristic = new ManhattanHeuristic(solutionMap);
         EightPuzzle manhattanEightPuzzle = new EightPuzzle(manhattanHeuristic);
         HeuristicFunction euclideanDistance = new EuclideanDistanceHeuristic(solutionMap);
         EightPuzzle euclideanDistanceEightPuzzle = new EightPuzzle(euclideanDistance);
 
-        Integer[][] test1 = PuzzleParser.readFile("TestFiles/Test1.txt");
-        Integer[][] test2 = PuzzleParser.readFile("TestFiles/Test2.txt");
-        Integer[][] test3 = PuzzleParser.readFile("TestFiles/Test3.txt");
-        Integer[][] test4 = PuzzleParser.readFile("TestFiles/Test4.txt");
-        Integer[][] test5 = PuzzleParser.readFile("TestFiles/Test5.txt");
-        Integer[][] test6 = PuzzleParser.readFile("TestFiles/Test6.txt");
-        Integer[][] test7 = PuzzleParser.readFile("TestFiles/Test7.txt");
-        Integer[][] test8 = PuzzleParser.readFile("TestFiles/Test8.txt");
+        Path testFilesPath = Paths.get("TestFiles");
         List<Integer[][]> tests = new ArrayList<>();
-        tests.add(test1);
-        tests.add(test2);
-        tests.add(test3);
-        tests.add(test4);
-        tests.add(test5);
-        tests.add(test6);
-        tests.add(test7);
-        tests.add(test8);
+        try (Stream<Path> stream = Files.list(testFilesPath)) {
+            stream.filter(Files::isRegularFile)
+                    .forEach(file -> {
+                        try {
+                            tests.add(PuzzleParser.readFile(String.valueOf(file.toAbsolutePath())));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Running manhattan heuristic");
         for(Integer[][]test: tests){
